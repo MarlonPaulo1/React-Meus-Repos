@@ -46,6 +46,11 @@ export default function Home() {
         setNewRepo(e.target.value)
     }
 
+    const handleDelete = useCallback((repo) => {
+        const find = repositorios.filter(r => r.name !== repo)
+        setRepositorios(find)
+    }, [repositorios])
+
     return (
         <Container>
             <Search>
@@ -93,7 +98,7 @@ export default function Home() {
                         <a href="">
                             <FaBars size={20} />
                         </a>
-                        <DeleteButton onClick={() => { }}>
+                        <DeleteButton onClick={() => handleDelete(repo.name)}>
                             <GoX size={20} />
                         </DeleteButton>
                     </li>
