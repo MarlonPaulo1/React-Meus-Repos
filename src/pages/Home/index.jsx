@@ -3,6 +3,8 @@ import { GoStar, GoRepoForked, GoX } from 'react-icons/go'
 import { Container, Form, SubmitButton, List, Search, CardHeader, User, CardContent, CardFooter, DeleteButton } from "./styles";
 import { useCallback, useState } from 'react';
 import api from '../../services/api'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
     const [newRepo, setNewRepo] = useState('')
@@ -16,7 +18,28 @@ export default function Home() {
             setLoading(true)
 
             try {
+
+                if (newRepo === "") {
+                    throw toast.error("Campo de pesquisa vazio", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        closeOnClick: true,
+                    });
+                }
+
                 const response = await api.get(`repos/${newRepo}`)
+
+                const hasRepo = repositorios.find(repo => repo.name === newRepo)
+
+                if (hasRepo) {
+                    throw toast.error("Repositorio duplicado", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        closeOnClick: true,
+                    });
+
+                    setNewRepo('')
+                }
 
                 const data = {
                     name: response.data.full_name,
@@ -104,6 +127,7 @@ export default function Home() {
                     </li>
                 ))}
             </List>
+            <ToastContainer />
         </Container>
     )
 }
