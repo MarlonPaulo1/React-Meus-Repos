@@ -1,7 +1,7 @@
 import { FaGithub, FaPlus, FaSpinner, FaBars } from 'react-icons/fa'
 import { GoStar, GoRepoForked, GoX } from 'react-icons/go'
 import { Container, Form, SubmitButton, List, Search, CardHeader, User, CardContent, CardFooter, DeleteButton } from "./styles";
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import api from '../../services/api'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,18 @@ export default function Home() {
     const [newRepo, setNewRepo] = useState('')
     const [repositorios, setRepositorios] = useState([])
     const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        localStorage.setItem('repos', JSON.stringify(repositorios))
+    }, [repositorios])
+
+    useEffect(() => {
+        const repoStorage = JSON.parse(localStorage.getItem('repos'))
+
+        if (repoStorage) {
+            setRepositorios(repoStorage)
+        }
+    }, [])
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault()
