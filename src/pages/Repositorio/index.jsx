@@ -1,5 +1,13 @@
-export default function Repositorio() {
+import { Title } from "./styles";
+import { useParams } from "react-router-dom";
+
+export default function Repositorio({ match }) {
+
+    const { repositorio } = useParams()
+
     return (
-        <h1>Repositorio</h1>
+        <Title>
+            {repositorio}
+        </Title>
     )
 }

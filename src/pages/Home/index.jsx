@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import api from '../../services/api'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom'
 
 export default function Home() {
     const [newRepo, setNewRepo] = useState('')
@@ -130,9 +131,9 @@ export default function Home() {
                             <p><GoStar size={20} /> {repo.stars}</p>
                             <p>{repo.created_at}</p>
                         </CardFooter>
-                        <a href="">
+                        <Link to={`/repositorio/${encodeURIComponent(repo.name)}`}>
                             <FaBars size={20} />
-                        </a>
+                        </Link>
                         <DeleteButton onClick={() => handleDelete(repo.name)}>
                             <GoX size={20} />
                         </DeleteButton>
